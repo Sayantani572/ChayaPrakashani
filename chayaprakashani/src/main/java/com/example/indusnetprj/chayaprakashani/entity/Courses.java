@@ -11,73 +11,73 @@ import javax.persistence.Table;
 @Table( name="Courses")
 public class Courses {
 	@Id
-	private Integer courseid;
+	@Column(name = "course_id")
+	private Integer courseId;
 	
 	@Column(name="coursename")
-	private String coursename;
+	private String courseName;
 	
 	@Column(name="courseteacher")
-	private String courseteacher;
+	private String courseTeacher;
 	
 	@Column(name="coursefee")
-	private int coursefee;
+	private int courseFee;
 	
 	@Column(name="coursedate")
-	private Date coursedate;
+	private Date courseDate;
 
 	public Courses() {
 		
 	}
 
-	public Courses(Integer courseid, String coursename, String courseteacher, int coursefee, Date coursedate) {
+	public Courses(Integer courseId, String courseName, String courseTeacher, int courseFee, Date courseDate) {
 		super();
-		this.courseid = courseid;
-		this.coursename = coursename;
-		this.courseteacher = courseteacher;
-		this.coursefee = coursefee;
-		this.coursedate = coursedate;
+		this.courseId = courseId;
+		this.courseName = courseName;
+		this.courseTeacher = courseTeacher;
+		this.courseFee = courseFee;
+		this.courseDate = courseDate;
 	}
 
-	public Integer getCourseid() {
-		return courseid;
+	public Integer getCourseId() {
+		return courseId;
 	}
 
-	public void setCourseid(Integer courseid) {
-		this.courseid = courseid;
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
 	}
 
-	public String getCoursename() {
-		return coursename;
+	public String getCourseName() {
+		return courseName;
 	}
 
-	public void setCoursename(String coursename) {
-		this.coursename = coursename;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
-	public String getCourseteacher() {
-		return courseteacher;
+	public String getCourseTeacher() {
+		return courseTeacher;
 	}
 
-	public void setCourseteacher(String courseteacher) {
-		this.courseteacher = courseteacher;
+	public void setCourseTeacher(String courseTeacher) {
+		this.courseTeacher = courseTeacher;
 	}
 
-	public int getCoursefee() {
-		return coursefee;
+	public int getCourseFee() {
+		return courseFee;
 	}
 
-	public void setCoursefee(int coursefee) {
-		this.coursefee = coursefee;
+	public void setCourseFee(int courseFee) {
+		this.courseFee = courseFee;
 	}
 
-	public Date getCoursedate() {
-		return coursedate;
+	public Date getCourseDate() {
+		return courseDate;
 	}
 
-	public void setCoursedate(Date coursedate) {
-		this.coursedate = coursedate;
+	public void setCourseDate(Date courseDate) {
+		this.courseDate = courseDate;
 	}
-	
-	
+
 
 }

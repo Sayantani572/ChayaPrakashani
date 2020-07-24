@@ -11,8 +11,8 @@ import com.example.indusnetprj.chayaprakashani.entity.StudentDetails;
 @Repository
 public interface StudentDAO extends JpaRepository<StudentDetails, Integer>{
 
-	Optional<StudentDetails> findByfirstname(String firstname);
+	Optional<StudentDetails> findByfirstName(String firstName);
 
-	//StudentDetails findByName(String firstname);
+	Optional<StudentDetails> findByEmail(String email);
 
 }

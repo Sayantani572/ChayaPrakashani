@@ -15,8 +15,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 
 @Entity
 @Table(name="student_details")
@@ -27,52 +37,83 @@ public class StudentDetails {
 	@Column(name = "stud_id")
 	private Integer id;
 	
+	@NotNull(message = "Fisrt name can not be null")
+	@Size(min = 2,message = "Fisrt Name must not less than 2 char")
 	@Column(name = "first_name")
-	private String firstname;
+	private String firstName;
 	
+	
+	@NotBlank(message = "Last name can not be null")
 	@Column(name = "last_name")
-	private String lastname;
+	private String lastName;
 	
+	@NotBlank(message = "Email can not be null")
+	@Email
 	@Column(name = "email")
 	private String email;
 	
+	@NotNull(message = "Password can not be null")
+	@Size(min = 4,message = "password must not less than 4 digit")
 	@Column(name = "password")
 	private String password;
 	
+	@NotNull(message = "Mobile no can not be null")
+	@Pattern(regexp = "^[6-9][0-9]{9}$")
 	@Column(name = "mobile")
 	private String mobile;
 	
-	//new
-//	@Column(name = "active")
-//    private int active;
-//
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles;
-    //new
 	
+    
+	@Transient
+	@Column(name = "roles")
+	 private String roles;
+	  
+	
+	//@NotNull
 	@OneToMany(targetEntity = StudCourses.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "studcourseId_fk",referencedColumnName = "stud_id")
 	private List<StudCourses> studcourses;
 	
 	
-	public StudentDetails()
-	{}
+	
+	
+	 public StudentDetails() {
+		
+	}
 
-			/*   new   */
-//	public StudentDetails(StudentDetails student) {
-//		super();
-//		this.id = student.getId();
-//		this.firstname = student.getFirstname();
-//		this.lastname = student.getLastname();
-//		this.email = student.getEmail();
-//		this.password = student.getPassword();
-//		this.mobile = student.getMobile();
-//		this.active = student.getActive();
-//		this.roles = student.getRoles();
-//		this.studcourses = student.getStudcourses();
-//	}
-//           /*  new   */
+
+	public StudentDetails(StudentDetails users) {
+	    	
+	        this.email = users.getEmail();
+	        this.roles = users.getRoles();
+	        this.firstName = users.getFirstName();
+	        this.lastName =users.getLastName();
+	        this.id = users.getId();
+	        this.password = users.getPassword();
+		}
+
+
+	
+
+
+	public StudentDetails(Integer id,
+			@NotNull(message = "Fisrt name can not be null") @Size(min = 2, message = "Fisrt Name must not less than 2 char") String firstName,
+			@NotBlank(message = "Last name can not be null") String lastName,
+			@NotBlank(message = "Email can not be null") @Email String email,
+			@NotNull(message = "Password can not be null") @Size(min = 4, message = "password must not less than 4 digit") String password,
+			@NotNull(message = "Mobile no can not be null") @Pattern(regexp = "^[6-9][0-9]{9}$") String mobile,
+			String roles, List<StudCourses> studcourses) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.mobile = mobile;
+		this.roles = roles;
+		this.studcourses = studcourses;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -84,23 +125,23 @@ public class StudentDetails {
 	}
 
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 
@@ -134,6 +175,16 @@ public class StudentDetails {
 	}
 
 
+	public String getRoles() {
+		return "ROLE_USER";
+	}
+
+
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+
 	public List<StudCourses> getStudcourses() {
 		return studcourses;
 	}
@@ -142,28 +193,7 @@ public class StudentDetails {
 	public void setStudcourses(List<StudCourses> studcourses) {
 		this.studcourses = studcourses;
 	}
-		
 	
-	//new
-
-//    public int getActive() {
-//		return active;
-//	}
-//
-//
-//	public void setActive(int active) {
-//		this.active = active;
-//	}
-//
-//
-//	public Set<Role> getRoles() {
-//		return roles;
-//	}
-//
-//
-//	public void setRoles(Set<Role> roles) {
-//		this.roles = roles;
-//	}
 
 
-}
+	}

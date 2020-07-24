@@ -1,33 +1,37 @@
 package com.example.indusnetprj.chayaprakashani.controller;
-
 import java.util.List;
 
+import javax.persistence.NonUniqueResultException;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-//import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.indusnetprj.chayaprakashani.dao.ChayaPrakashaniDAO;
 import com.example.indusnetprj.chayaprakashani.dao.StudentCourseDAO;
 import com.example.indusnetprj.chayaprakashani.dao.StudentDAO;
-import com.example.indusnetprj.chayaprakashani.dto.StudentRequest;
+
+//import com.example.indusnetprj.chayaprakashani.dto.StudentRequest;
 import com.example.indusnetprj.chayaprakashani.entity.Courses;
 import com.example.indusnetprj.chayaprakashani.entity.StudentDetails;
-
+import com.example.indusnetprj.chayaprakashani.exception.GlobalException;
+//import com.example.indusnetprj.chayaprakashani.repository.UsersRepository;
 
 
 @RestController
 @RequestMapping("/courseapi")
 public class ChayaPrakashaniController {
 
-	@Autowired
+   @Autowired
    private StudentDAO studentrepository;
 
 	@Autowired
@@ -36,57 +40,41 @@ public class ChayaPrakashaniController {
 	@Autowired
 	private StudentCourseDAO studcourserepo;
 
-	@GetMapping("/courses")
+	@RequestMapping("/courses")
 	public List<Courses> findAllCourses(){
 		return repository.findAll();
 	}
 	
 	@PostMapping("/registerStudent")
-	public StudentDetails addStudent(@RequestBody StudentRequest request) {
+	public StudentDetails addStudent(@Valid @RequestBody StudentDetails request) throws Exception {
 		
-		return studentrepository.save(request.getStudentreq());
+		StudentDetails existingemail=studentrepository.findByEmail(request.getEmail()).orElse(null);
+		
+		 if (existingemail != null) {
+	         
+			 throw new NonUniqueResultException();
+		 }
+		 return studentrepository.save(request); 		
 	}
+	
 
-	@GetMapping("/show/{studId}")
-	public StudentDetails findStudById(@PathVariable int studId) {
+	@PreAuthorize("hasRole('USER')")
+	@RequestMapping("/showstudents/{studFirstName}")
+	public StudentDetails findStudByfirstName(@PathVariable String studFirstName) {
 		
-	return studentrepository.findById(studId).orElse(null);
+	return studentrepository.findByfirstName(studFirstName).orElse(null);
+	
 	}
 	
-//	@PreAuthorize("hasAnyRole('USER')")
-//    @GetMapping("/user")
-	@GetMapping("/showstudents/{studFirstName}")
-	public StudentDetails findStudByfirstname(@PathVariable String studFirstName) {
-		
-	return studentrepository.findByfirstname(studFirstName).orElse(null);
 	
-	}
-//	 public String alternate() {
-//        return "user page";
-//    }
+	/* Sourav's entry*/
 	
-	
-//	@PutMapping("/updateDetails")
-//	
-//	public StudentDetails updateStudent(@RequestBody StudentDetails student) {
-//	
-//	StudentDetails existingstudent=studentrepository.findById(student.getId()).orElse(null);
-//
-//	 existingstudent.setFirstname(student.getFirstname());
-//	 existingstudent.setLastname(student.getLastname());
-//	 existingstudent.setEmail(student.getEmail());
-//	 existingstudent.setPassword(student.getPassword());
-//	 existingstudent.setMobile(student.getMobile());
-//	 existingstudent.setStudcourses(student.getStudcourses());
-//	
-//	return studentrepository.save(existingstudent);
-//	
-//	}
-	
-//	 @PreAuthorize("hasAnyRole('ADMIN')")
-//	    @RequestMapping("/admin")
-//	    public String securedHello() {
-	
-//	       return "admin page";
-//	    }
+	@PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/admin")
+    public String securedHello() {
+        return "admin page";
+        
+        
+        
+    }
 	}

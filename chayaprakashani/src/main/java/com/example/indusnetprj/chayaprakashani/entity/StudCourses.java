@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="StudCourses")
@@ -18,24 +19,27 @@ public class StudCourses {
 	@Column(name="c_id")
 	private Integer c_id;
 	
+
 	@Column(name="coursename")
-	private String coursename;
+	private String courseName;
+	
 	
 	@Column(name="courseteacher")
-	private String courseteacher;
+	private String courseTeacher;
 	
 	
 	public StudCourses() {
 		
 	}
 
-
-	public StudCourses(Integer c_id, String coursename, String courseteacher) {
+	public StudCourses(Integer c_id, String courseName, String courseTeacher) {
 		super();
 		this.c_id = c_id;
-		this.coursename = coursename;
-		this.courseteacher = courseteacher;
+		this.courseName = courseName;
+		this.courseTeacher = courseTeacher;
 	}
+
+
 
 
 	public Integer getC_id() {
@@ -48,26 +52,25 @@ public class StudCourses {
 	}
 
 
-	public String getCoursename() {
-		return coursename;
+	public String getCourseName() {
+		return courseName;
 	}
 
 
-	public void setCoursename(String coursename) {
-		this.coursename = coursename;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
 
-	public String getCourseteacher() {
-		return courseteacher;
+	public String getCourseTeacher() {
+		return courseTeacher;
 	}
 
 
-	public void setCourseteacher(String courseteacher) {
-		this.courseteacher = courseteacher;
+	public void setCourseTeacher(String courseTeacher) {
+		this.courseTeacher = courseTeacher;
 	}
 
-	
 
 	
 }
