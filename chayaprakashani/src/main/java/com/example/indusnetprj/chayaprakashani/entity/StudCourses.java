@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -14,63 +14,58 @@ import javax.validation.constraints.NotBlank;
 @Table(name="StudCourses")
 public class StudCourses {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="c_id")
-	private Integer c_id;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serialno_generator")
+	@SequenceGenerator(name = "serialno_generator", allocationSize = 1,sequenceName = "serialno_seq")
+	@Column(name = "serial_no")
+	private Integer serialNo;
+	
+	
+	@Column(name="course_id")
+	private Integer courseId;
+		
 
 	@Column(name="coursename")
 	private String courseName;
 	
 	
-	@Column(name="courseteacher")
-	private String courseTeacher;
-	
-	
+		
 	public StudCourses() {
 		
 	}
 
-	public StudCourses(Integer c_id, String courseName, String courseTeacher) {
+	public StudCourses(Integer serialNo, Integer courseId, String courseName) {
 		super();
-		this.c_id = c_id;
+		this.serialNo = serialNo;
+		this.courseId = courseId;
 		this.courseName = courseName;
-		this.courseTeacher = courseTeacher;
 	}
 
-
-
-
-	public Integer getC_id() {
-		return c_id;
+	public Integer getSerialNo() {
+		return serialNo;
 	}
 
-
-	public void setC_id(Integer c_id) {
-		this.c_id = c_id;
+	public void setSerialNo(Integer serialNo) {
+		this.serialNo = serialNo;
 	}
 
+	public Integer getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Integer courseId) {
+		this.courseId = courseId;
+	}
 
 	public String getCourseName() {
 		return courseName;
 	}
 
-
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
 
-
-	public String getCourseTeacher() {
-		return courseTeacher;
-	}
-
-
-	public void setCourseTeacher(String courseTeacher) {
-		this.courseTeacher = courseTeacher;
-	}
-
-
+	
 	
 }

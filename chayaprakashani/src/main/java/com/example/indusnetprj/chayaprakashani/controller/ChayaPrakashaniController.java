@@ -46,13 +46,19 @@ public class ChayaPrakashaniController {
 	}
 	
 	@PostMapping("/registerStudent")
-	public StudentDetails addStudent(@Valid @RequestBody StudentDetails request) throws Exception {
+	public StudentDetails addStudent(@Valid @RequestBody StudentDetails request) throws NonUniqueResultException {
 		
 		StudentDetails existingemail=studentrepository.findByEmail(request.getEmail()).orElse(null);
 		
 		 if (existingemail != null) {
 	         
 			 throw new NonUniqueResultException();
+		 }
+		 
+         String role = request.getRoles();
+		 
+		 if(role==null) {
+			 request.setRoles("ROLE_USER");
 		 }
 		 return studentrepository.save(request); 		
 	}
@@ -67,14 +73,14 @@ public class ChayaPrakashaniController {
 	}
 	
 	
-	/* Sourav's entry*/
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/admin")
-    public String securedHello() {
-        return "admin page";
-        
-        
+    public List<StudentDetails> securedHello() {
+		
+        return studentrepository.findAll();
         
     }
-	}
+        
+    }
+	

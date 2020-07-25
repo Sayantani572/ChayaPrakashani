@@ -2,6 +2,8 @@ package com.example.indusnetprj.chayaprakashani.exception;
 
 import java.util.Date;
 
+import javax.persistence.NonUniqueResultException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,13 +15,13 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalException {
 
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorDetails> handleGlobalException(Exception exc,WebRequest req)
+	@ExceptionHandler(NonUniqueResultException.class)
+	public ResponseEntity<ErrorDetails> handleGlobalException(NonUniqueResultException exc,WebRequest req)
 	{
 		ErrorDetails errordetails =
-		new ErrorDetails(HttpStatus.INTERNAL_SERVER_ERROR.value(), new Date(), exc.getMessage(), req.getDescription(false));
+		new ErrorDetails(HttpStatus.BAD_REQUEST.value(), new Date(), "Email must be unique", req.getDescription(false));
 		
-		return new ResponseEntity<>(errordetails,HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(errordetails,HttpStatus.BAD_REQUEST);
 	}
 	//custom validation error
 	

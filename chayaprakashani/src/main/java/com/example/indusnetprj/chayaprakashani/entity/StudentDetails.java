@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -33,8 +34,9 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 public class StudentDetails {
  
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "stud_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "studentid_generator")
+	@SequenceGenerator(name = "studentid_generator", allocationSize = 1,sequenceName = "studentid_seq")
+	@Column(name = "student_id")
 	private Integer id;
 	
 	@NotNull(message = "Fisrt name can not be null")
@@ -62,19 +64,16 @@ public class StudentDetails {
 	@Column(name = "mobile")
 	private String mobile;
 	
-	
-    
-	@Transient
+
+	//@Transient
 	@Column(name = "roles")
 	 private String roles;
 	  
 	
 	//@NotNull
 	@OneToMany(targetEntity = StudCourses.class,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinColumn(name = "studcourseId_fk",referencedColumnName = "stud_id")
+	@JoinColumn(name = "studcourseId_fk",referencedColumnName = "student_id")
 	private List<StudCourses> studcourses;
-	
-	
 	
 	
 	 public StudentDetails() {
@@ -176,7 +175,7 @@ public class StudentDetails {
 
 
 	public String getRoles() {
-		return "ROLE_USER";
+		return roles;
 	}
 
 
