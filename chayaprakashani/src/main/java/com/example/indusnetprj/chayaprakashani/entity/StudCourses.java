@@ -6,9 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="StudCourses")
@@ -35,6 +38,8 @@ public class StudCourses {
 		
 	}
 
+	
+
 	public StudCourses(Integer serialNo, Integer courseId, String courseName) {
 		super();
 		this.serialNo = serialNo;
@@ -42,29 +47,41 @@ public class StudCourses {
 		this.courseName = courseName;
 	}
 
+
 	public Integer getSerialNo() {
 		return serialNo;
 	}
+
+
 
 	public void setSerialNo(Integer serialNo) {
 		this.serialNo = serialNo;
 	}
 
+
+
 	public Integer getCourseId() {
 		return courseId;
 	}
+
+
 
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
 
+
+
 	public String getCourseName() {
 		return courseName;
 	}
 
+
+
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
+
 
 	
 	

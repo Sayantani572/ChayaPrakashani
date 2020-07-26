@@ -29,7 +29,7 @@ public class GlobalException {
 	public ResponseEntity<ErrorDetails> customeValidationException(MethodArgumentNotValidException ex)
 	{
 		ErrorDetails errordetails =
-		new ErrorDetails(HttpStatus.BAD_REQUEST.value(),new Date(),"Vlidation error",
+		new ErrorDetails(HttpStatus.BAD_REQUEST.value(),new Date(),"Validation error",
 				ex.getBindingResult().getFieldError().getDefaultMessage());
 		
 		

@@ -27,6 +27,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 
 @Entity
@@ -65,7 +66,7 @@ public class StudentDetails {
 	private String mobile;
 	
 
-	//@Transient
+	
 	@Column(name = "roles")
 	 private String roles;
 	  

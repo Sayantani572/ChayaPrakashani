@@ -1,4 +1,5 @@
 package com.example.indusnetprj.chayaprakashani.controller;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NonUniqueResultException;
@@ -24,6 +25,7 @@ import com.example.indusnetprj.chayaprakashani.dao.StudentDAO;
 import com.example.indusnetprj.chayaprakashani.entity.Courses;
 import com.example.indusnetprj.chayaprakashani.entity.StudentDetails;
 import com.example.indusnetprj.chayaprakashani.exception.GlobalException;
+import com.example.indusnetprj.chayaprakashani.service.ChayaprakashaniService;
 //import com.example.indusnetprj.chayaprakashani.repository.UsersRepository;
 
 
@@ -31,36 +33,40 @@ import com.example.indusnetprj.chayaprakashani.exception.GlobalException;
 @RequestMapping("/courseapi")
 public class ChayaPrakashaniController {
 
-   @Autowired
-   private StudentDAO studentrepository;
-
-	@Autowired
-	private ChayaPrakashaniDAO repository;
+//   @Autowired
+//   private StudentDAO studentrepository;
+//
+//	@Autowired
+//	private ChayaPrakashaniDAO repository;
+//	
+//	@Autowired
+//	private StudentCourseDAO studcourserepo;
 	
 	@Autowired
-	private StudentCourseDAO studcourserepo;
+	private ChayaprakashaniService chayaprakashaniService;
 
 	@RequestMapping("/courses")
 	public List<Courses> findAllCourses(){
-		return repository.findAll();
+		//return repository.findAll();
+		return chayaprakashaniService.findAllCourses();
 	}
 	
 	@PostMapping("/registerStudent")
 	public StudentDetails addStudent(@Valid @RequestBody StudentDetails request) throws NonUniqueResultException {
 		
-		StudentDetails existingemail=studentrepository.findByEmail(request.getEmail()).orElse(null);
-		
-		 if (existingemail != null) {
-	         
-			 throw new NonUniqueResultException();
-		 }
-		 
-         String role = request.getRoles();
-		 
-		 if(role==null) {
-			 request.setRoles("ROLE_USER");
-		 }
-		 return studentrepository.save(request); 		
+//		StudentDetails existingemail=studentrepository.findByEmail(request.getEmail()).orElse(null);
+//		
+//		 if (existingemail != null) {
+//	         
+//			 throw new NonUniqueResultException();
+//		 }
+//		 
+//         String role = request.getRoles();
+//		 
+//		 if(role==null) {
+//			 request.setRoles("ROLE_USER");
+//		 }
+		 return chayaprakashaniService.savestudent(request); 		
 	}
 	
 
@@ -68,7 +74,7 @@ public class ChayaPrakashaniController {
 	@RequestMapping("/showstudents/{studFirstName}")
 	public StudentDetails findStudByfirstName(@PathVariable String studFirstName) {
 		
-	return studentrepository.findByfirstName(studFirstName).orElse(null);
+	return chayaprakashaniService.getStudentByName(studFirstName);
 	
 	}
 	
@@ -77,10 +83,23 @@ public class ChayaPrakashaniController {
 	@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/admin")
     public List<StudentDetails> securedHello() {
-		
-        return studentrepository.findAll();
-        
-    }
+//		
+//		List<StudentDetails> listStudent=studentrepository.findAll();
+//		List<StudentDetails> newStudentList=new ArrayList<StudentDetails>();
+//
+//		for(StudentDetails ls:listStudent)
+//		{
+//			if(!ls.getRoles().equals("ROLE_ADMIN"))
+//			{
+//				newStudentList.add(ls);
+//			}
+//		}
+//	      return newStudentList;
+//        
+//   
+		return chayaprakashaniService.AllStudent();
+	
+	}
         
     }
 	
