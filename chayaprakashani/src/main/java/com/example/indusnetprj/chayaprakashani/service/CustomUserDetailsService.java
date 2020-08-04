@@ -21,8 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService{
     private StudentDAO usersRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
-		Optional<StudentDetails> optionalUsers = usersRepository.findByfirstName(firstName);
+	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		Optional<StudentDetails> optionalUsers = usersRepository.findByuserId(userId);
 
         optionalUsers
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));

@@ -16,7 +16,7 @@ public class GlobalException {
 
 	
 	@ExceptionHandler(NonUniqueResultException.class)
-	public ResponseEntity<ErrorDetails> handleGlobalException(NonUniqueResultException exc,WebRequest req)
+	public ResponseEntity<ErrorDetails> handleNonUniqueException(NonUniqueResultException exc,WebRequest req)
 	{
 		ErrorDetails errordetails =
 		new ErrorDetails(HttpStatus.BAD_REQUEST.value(), new Date(), "Email must be unique", req.getDescription(false));
@@ -34,5 +34,29 @@ public class GlobalException {
 		
 		
 		return new ResponseEntity<>(errordetails,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ErrorDetails> handleResourceNotFoundException
+	(ResourceNotFoundException exception,WebRequest request)
+	{
+		ErrorDetails errordetails =
+		new ErrorDetails(HttpStatus.NOT_FOUND.value(),new Date(),exception.getMessage(),
+				 request.getDescription(false));
+		
+		
+		return new ResponseEntity<>(errordetails,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(DuplicateEntryException.class)
+	public ResponseEntity<ErrorDetails> handleduplicateEntryException
+	(DuplicateEntryException exception,WebRequest request)
+	{
+		ErrorDetails errordetails =
+		new ErrorDetails(HttpStatus.CONFLICT.value(),new Date(),exception.getMessage(),
+				 request.getDescription(false));
+		
+		
+		return new ResponseEntity<>(errordetails,HttpStatus.CONFLICT);
 	}
 }

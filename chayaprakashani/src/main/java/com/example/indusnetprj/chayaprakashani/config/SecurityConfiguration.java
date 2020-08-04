@@ -26,34 +26,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 		@Override
 		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService);
-	        //.passwordEncoder(getPasswordEncoder()); 
+			auth.userDetailsService(userDetailsService);   
 		}
-		
-//		private PasswordEncoder getPasswordEncoder() {
-//	        return new PasswordEncoder() {
-//	            @Override
-//	            public String encode(CharSequence charSequence) {
-//	                return charSequence.toString();
-//	            }
-//
-//	            @Override
-//	            public boolean matches(CharSequence charSequence, String s) {
-//	                return true;
-//	            }
-//	        };
-//	    }
-		
+
 		@Override
 	    protected void configure(HttpSecurity http) throws Exception {
 
 	        http.csrf().disable();
 	        http.authorizeRequests()
 	                .antMatchers("/admin").authenticated()
-	                .antMatchers("/showstudents/{studFirstName}").authenticated()
+	                .antMatchers("/showstudents/{userId}").authenticated()
 	                .antMatchers("/courses").permitAll()
 	                .and()
-	                .formLogin();
+	                .httpBasic();
 	    }
 	
 		@Bean
